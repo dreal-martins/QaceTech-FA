@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import SideBar from "@/components/sidebar";
+import Header from "@/components/header";
+import { ConfigProvider } from "antd";
+import { SearchProvider } from "@/context/SearchContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +32,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#A93636",
+            },
+          }}
+        >
+          <SearchProvider>
+            <div className="flex h-screen">
+              <SideBar />
+              <div className="flex flex-col w-full">
+                <Header />
+                <div className="flex-1 overflow-y-auto">{children}</div>
+              </div>
+            </div>
+          </SearchProvider>
+        </ConfigProvider>
       </body>
     </html>
   );
